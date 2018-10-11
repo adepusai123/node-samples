@@ -3,7 +3,7 @@ import { Strategy as FacebookStrategy } from 'passport-facebook';
 import environment from '../config/constants';
 const env = environment.ENVIRONMENT;
 process.env.NODE_ENV = env;
-const config = require(`./config/config-${env}.json`);
+const config = require(`../config/config-${env}.json`);
 const CONSTANTS = config['CONSTANTS'];
 import User from '../models/user';
 const router = express.Router();
@@ -17,7 +17,6 @@ export const isAuthenticated = (req, res, next) => {
     // if the user is not authenticated then redirect him to the login page
     res.redirect('/');
 };
-
 
 export default passport => {
     passport.serializeUser(function (user, done) {
