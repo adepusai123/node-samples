@@ -1,0 +1,30 @@
+{
+    "SERVER": {
+        "WEB": {
+            "SERVER_HOST_IP": "localhost",
+            "SERVER_PORT": 3000
+        },
+        "MongoDB": {
+            "host": "127.0.0.1",
+            "port": 27017,
+            "database": "socialLogin",
+            "username": "socialLoginUser",
+            "password": "50cialL0ginU53r"
+        }
+    },
+    "CONSTANTS": {
+        "TMP_FILE_UPLOAD_PATH": "/public/upload/tmp/",
+        "JWT": {
+            "SECRET": "jwt-clix-secret",
+            "ALGORITHM": "HS512",
+            "EXPIRES_IN": "1d"
+        },
+        "SOCIAL": {
+            "FACEBOOK": {
+                "clientID": "facebookappId",
+                "clientSecret": "facebookappscrectkey",
+                "callbackURL": "http://localhost:3000/login/facebook/callback"
+            }
+        }
+    }
+}
