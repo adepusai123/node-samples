@@ -34,7 +34,7 @@ export default class MailController {
             const sendEmail = await this.sendMailNow(mailObject);
             return sendEmail;
         } catch(e){
-            return false;
+            return e;
         }
     }    
     createHtmlFromJade(data){
