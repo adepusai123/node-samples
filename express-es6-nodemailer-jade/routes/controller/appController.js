@@ -1,4 +1,4 @@
-import MailController from "./mailController";
+import MailController from "../service/mailService";
 const mailController = new MailController();
 export default class AppController {
     constructor(...scope) {
