@@ -1,0 +1,6 @@
+{
+  "database":{
+    "url": "mongodb://db/pwc"
+  },
+  "v1_base_path": "/api/clients-management/v1"
+}

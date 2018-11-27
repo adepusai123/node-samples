@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: mongo:3.6
+    restart: always
+    container_name: dev_db
+    volumes:
+      - /data/pwc/staging/data/db:/data/db
+    ports:
+      - "27018:27017"
+  app:
+    build: .
+    image: registry.gitlab.com/node-sample:latest
+    container_name: dev_node-es6-jenkins-example
+    restart: always
+    command: bash -c "./wait-for-it.sh --timeout=0 db:27017 && yarn run server"
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    links:
+      - db
+    stdin_open: true
+    tty: true
+    environment:
+      ASSET_HOST: http://localhost:3001

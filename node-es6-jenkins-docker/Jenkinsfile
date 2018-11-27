@@ -1,0 +1,57 @@
+#!groovy
+
+node('jenkins-node') {
+    stage('Checkout') {
+        echo 'configure started'
+        git branch: '${BRANCH_NAME}', credentialsId:'', url: ''
+        echo 'configure done'
+    }
+    stage('Build') {
+         if (isUnix()) {
+            // sh 'sudo -S true'
+            sh 'sudo docker-compose build'
+        } else {
+            bat 'sudo docker-compose build'
+        }
+    }
+    
+    stage('Code coverage') {
+         if (isUnix()) {
+            sh 'sudo docker-compose run --rm app yarn run code_coverage'
+         }else {
+            bat 'sudo docker-compose run --rm app yarn run code_coverage'
+         }
+         publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './coverage', reportFiles: 'index.html', reportName: 'Code Coverage', reportTitles: 'Code Coverage'])
+    }
+
+    
+    stage('Code Quality') {
+        if (isUnix()) {
+            sh 'sudo docker-compose run --rm app yarn run code_quality'
+        } else {
+            bat 'sudo docker-compose run --rm app yarn run code_quality'
+        }
+
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './reports/plato', reportFiles: 'index.html', reportName: 'Code Quality', reportTitles: 'Code Quality'])
+        echo 'Code Quality ended'
+    }
+
+    stage('Shutingdown Container') {
+        if (isUnix()) {
+            sh 'sudo docker-compose down'
+        } else {
+            bat 'sudo docker-compose down'
+        }
+
+    }
+
+    stage('Deliver') {
+        if (isUnix()) {
+            sh 'sudo docker push registry.gitlab.com/pricewaterhousecoopers/apis/clients_management_domain_apis:latest'
+        } else {
+            sh 'sudo docker push registry.gitlab.com/pricewaterhousecoopers/apis/clients_management_domain_apis:latest'
+        }
+    }
+
+}
+
